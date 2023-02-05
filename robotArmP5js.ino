@@ -1,3 +1,5 @@
+# 시리얼 누적 입력 부분 수정 필요  
+
 #include <Servo.h>
 
 Servo servo1;  
