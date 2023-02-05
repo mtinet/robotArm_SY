@@ -33,7 +33,7 @@ void setup() {
 
 void loop() {
   int CdSValue = analogRead(CdS); 
-  Serial.println("CdSValue = ");
+  Serial.print("CdSValue = ");
   Serial.println(CdSValue);
   if (CdSValue > 110) {
     run();
