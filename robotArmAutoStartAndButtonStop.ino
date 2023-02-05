@@ -24,6 +24,7 @@ void setup() {
   delay(1000);
 
   Serial.println("Initialized Complete. RobotArm Started");
+  Serial.println("If you want to stop the RobotArm? Send 's' on your serial monitor");
 }  
   
 
