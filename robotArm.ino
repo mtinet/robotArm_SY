@@ -68,15 +68,15 @@ void run() {
   if (sensorStatus == 1)
   {
     digitalWrite(LED, LOW);
+    Serial.println("white!"); 
     catch1();
     right1();
-    Serial.println("white!"); 
   }
   else  {
     digitalWrite(LED, HIGH); 
+    Serial.println("black!");
     catch1();
     left1();
-    Serial.println("black!");
   }
 }
 void catch1(){
