@@ -5,15 +5,15 @@ Servo servo2;
 Servo servo3;  
 Servo servo4;  
 
+int CdS = A4; 
 int IRSensor = A5; 
-int LED = 13;
-boolean state = false;
+
 
 void setup() {
   Serial.begin(9600);
-
+  
+  pinMode(CdS, INPUT);
   pinMode(IRSensor, INPUT);
-  pinMode(LED, OUTPUT); 
   
   servo1.attach(3); 
   servo2.attach(5); 
@@ -26,35 +26,23 @@ void setup() {
   servo4.write(90);  
   delay(1000);
 
-  Serial.println("Initialized Complete.");
-  Serial.println("If you want to start? Send 's' on your serial monitor.");
-  Serial.println("else Send 't' on your serial monitor.");
+  Serial.println("Initialized Complete. RobotArm Started");
+  Serial.println("If you want to stop the RobotArm? Send 's' on your serial monitor.");
 }  
   
 
 void loop() {
-  if (Serial.available()){
-    char data = Serial.read();
-    // Serial.println(data);
-
-    if (data == 's') {
-      state = !state;
-      Serial.println();
-      Serial.println("RobotArm Started");
-      while(1) {
-        run();
-        char data = Serial.read();
-        Serial.println(data);
-        if (data == 't') {
-          Serial.println();
-          Serial.println("RobotArm Stopped");
-          break;
-        }
-      }
-    }
+  int CdSValue = analogRead(CdS); 
+  Serial.println("CdSValue = ");
+  Serial.println(CdSValue);
+  if (CdSValue > 110) {
+    run();
+  } else {
+    start1();
   }
 }
 
+// 초기화 함수
 void start1(){
   servo1.write(90);  //초기값 세팅
   servo2.write(0); 
@@ -63,22 +51,23 @@ void start1(){
   delay(1000);  
 }
 
+// 실행 함수
 void run() {
   int sensorStatus = digitalRead(IRSensor); 
   if (sensorStatus == 1)
   {
-    digitalWrite(LED, LOW);
-    Serial.println("white!"); 
+    Serial.println("black!"); 
     catch1();
     right1();
   }
   else  {
-    digitalWrite(LED, HIGH); 
-    Serial.println("black!");
+    Serial.println("white!");
     catch1();
     left1();
   }
 }
+
+// 로봇암이 병뚜껑을 잡는 동작
 void catch1(){
   servo1.write(90);  //초기값 세팅
   servo2.write(0); 
@@ -102,6 +91,7 @@ void catch1(){
   delay(1000);
 }
 
+// 로봇암이 오른쪽 상자에 병뚜껑을 놓는 동작
 void right1(){
   servo1.write(160);  //오른쪽으로 돌아서
   servo2.write(0); 
@@ -122,9 +112,9 @@ void right1(){
   servo2.write(0); 
   servo3.write(90); 
   servo4.write(90);  
-
 }
 
+// 로봇암이 왼쪽 상자에 병뚜껑을 놓는 동작
 void left1(){
   servo1.write(160);  //왼쪽으로 돌아서
   servo2.write(0); 
